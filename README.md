@@ -51,16 +51,20 @@ twoway line packspercapita        year if stcode == 3, lcolor(red) lwidth(thick)
     ytitle("Packs per capita")
 graph export prop99_mcnnm.png, replace
 ```
-![A Matrix Completion Estimator (California, Proposition 99)](prop99_mcnnm.png)
+<img src="https://github.com/damiancclarke/mcpanel/blob/main/prop99_mcnmm.png" width="600" height="400">
 
 ## References
 Susan Athey, Mohsen Bayati, Nikolay Doudchenko, Guido Imbens & Khashayar Khosravi (2021) Matrix Completion Methods for Causal Panel Data Models, Journal of the American Statistical Association, 116:536, 1716-1730, DOI: [10.1080/01621459.2021.1891924](https://doi.org/10.1080/01621459.2021.1891924)
 
+Abadie, A., Diamond, A., & Hainmueller, J. (2010). Synthetic control methods for comparative case studies: Estimating the effect of California's tobacco control program. Journal of the American Statistical Association, 105(490), 493–505. DOI: [10.1198/jasa.2009.ap08746](https://doi.org/10.1198/jasa.2009.ap08746)
+
+
 ## Authors
+
 **Nicolás Bastías Campos**, Universidad de Chile.
-Email: nbastias@fen.uchile.cl
+ Email: nbastias@fen.uchile.cl
 
 **Damian Clarke**, Universidad de Chile.
-Email:dclarke@fen.uchile.cl
-Website: [http://www.damianclarke.net/](http://www.damianclarke.net/)
+ Email:dclarke@fen.uchile.cl
+ Website: [http://www.damianclarke.net/](http://www.damianclarke.net/)
 
