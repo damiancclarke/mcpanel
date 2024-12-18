@@ -1,19 +1,19 @@
 {smcl}
 {* *! version 0.0.1 November 25, 2024}
 {hline}
-{cmd:help mcpanel}{right: mcpanel v0.0.1}
+{cmd:help mcnnm}{right: mcpanel v0.0.1}
 {hline}
 
 {title:Title}
 
 {p 4 4 2}
-{cmdab:mcpanel} {hline 2} A Stata Implementation of Matrix Completion with Nuclear Norm Minimization.
+{cmdab:mcnnm} {hline 2} Matrix Completion with Nuclear Norm Minimization.
 
 {marker syntax}{...}
 {title:Syntax}
 
 {p 8 4 2}
-{cmd:mcnnm} {it:depvar} {it:treatment} {it:groupvar} {it:timevar} {ifin} 
+{cmd:mcnnm} {it:depvar} {it:treatment} {it:groupvar} {it:timevar}  {ifin} 
 			[{cmd:,} {cmd:lambda({it:#})} 
 			{cmd:maxiter({it:#})} 
 			{cmdab:tol:erance(}{it:#}{cmd:)} 
@@ -25,7 +25,6 @@
 {synopt:{it:treatment}}is a binary indicator variable that specifies each unit/period to be treated.{p_end}
 {synopt:{it:groupvar}}identifies the panels.{p_end}
 {synopt:{it:timevar}}dentifies the times within panels.{p_end}
-
 
 {synoptset 20 tabbed}{...}
 {synopthdr}
@@ -53,7 +52,7 @@
 {pstd}
 {cmd:mcnnm} {it:depvar} {it:treatment} {it:groupvar} {it:timevar} command performs the matrix completion with nuclear norm estimator. The {it:depvar} represents the 
 			potential outcome for treated units/periods that we aim to estimate. The command requires a {it:treatment} indicator variable (binary) to specify whether 
-			each unit/period is treated. Finally, a {it:groupvar} and a {it:timevar} must be provided to account for group and time/period dependencies.
+			each unit/period is treated. Finally, {it:groupvar} and a {it:timevar} must be provided to account for group and time/period dependencies.
 					
 {marker options}{...}
 {title:Options}
@@ -61,19 +60,19 @@
 {dlgtab:Model}
 
 {phang}
-{cmd:lambda}({it:#})} specifies the lambda regularization parameter for the nuclear norm. The default value is 100.
+{cmd:lambda}({it:#}) specifies the lambda regularization parameter for the nuclear norm. The default value is 100.
 
 {phang}
-{cmd:maxiter}({it:#})} specifies the maximum number of iterations for the algorithm convergence. The default value is 1000.
+{cmd:maxiter}({it:#}) specifies the maximum number of iterations for the algorithm convergence. The default value is 1000.
 
 {phang}
-{cmd:tolerance}({it:#})} specifies the algorithm tolerance stopping rule. The default value is 1e-5.
+{cmd:tolerance}({it:#}) specifies the algorithm tolerance stopping rule. The default value is 1e-5.
 
 {phang}
-{cmd:groupfe}} optional argument that indicates wheter to estimate fixed unit effects. The default is {it:not} to estimate them.
+{cmd:groupfe} optional argument that indicates wheter to estimate fixed unit effects. The default is {it:not} to estimate them.
 
 {phang}
-{cmd:timefe}} optional argument that indicates wheter to estimate fixed time effects. The default is {it:not} to estimate them
+{cmd:timefe} optional argument that indicates wheter to estimate fixed time effects. The default is {it:not} to estimate them
 
 {marker results}{...}
 {title:Stored results}
@@ -97,19 +96,25 @@
 	
 Setup 
 	
-	{cmd:. use synth_smoking.dta, clear}
+	Importing the dataset
 	
-	Matrix Completion with Nuclear norm
+	{cmd:. webuse set www.damianclarke.net/stata/}
 	
-	{cmd:. mcnnm cigsale treat state year}
+	{cmd:. webuse prop99_example.dta, clear}
 	
-	Matrix Completion with Nuclear norm with the optimal lambda selected with cross-validation
+	{cmd:. encode state, gen(stcode)}
 	
-	{cmd:. mcnnm cigsale treat state year, lambda(0.01370463) maxiter(150000)}
+	Matrix Completion with Nuclear Norm
+	
+	{cmd:. mcpanel packspercapita treat stcode year}
+	
+	Matrix Completion with Nuclear norm with the optimal lambda selected with cross-validation and fixed effects
+	
+	{cmd:. mcpanel packspercapita treat stcode year, lambda(0.01941918) maxiter(150000) groupfe timefe}
 	
 	Graph
 	
-	{cmd:. twoway line cigsale year if state == 3 || line cigsale_mcnnm year if state == 3 , xline(1988)}
+	{cmd:. twoway line packspercapita year if stcode == 3 || line packspercapita_mcnnm year if stcode == 3, xline(1988)}
 	
 
 	{title:Example with staggered adoption.}
@@ -120,15 +125,15 @@ Setup
 	
 	Matrix Completion with Nuclear norm
 	
-	{cmd:. mcnnm cigsale treat state year}
+	{cmd:. mcpanel cigsale treat state year}
 	
 	Matrix Completion with Nuclear norm with the optimal lambda selected with cross-validation
 	
-	{cmd:. mcnnm cigsale treat state year, lambda(0.01000053) maxiter(440000)}
+	{cmd:. mcpanel cigsale treat state year, lambda(0.01000053) maxiter(440000)}
 	
 	Graph
 	
-	{cmd:. twoway line cigsale year if state == 3 || line cigsale_mcnnm year if state == 3 , xline(1988)}
+	{cmd:. twoway line cigsale year if state == 3 || line cigsale_mcnnm year if state == 3, xline(1988)}
 	
 {marker references}{...}
 {title:References}
